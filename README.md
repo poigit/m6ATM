@@ -33,6 +33,7 @@ $ samtools index <PATH_TO_SORTED_BAM>
 ```
 
 ### Data preprocessing
+m6ATM re-align and collect **current intensity (signal)** and **base proability (trace)** data from each DRACH site. The preprocessed data is stored in numpy array for prediction.
 #### Basic
 ```shell
 m6atm preprocess -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -o <PATH_TO_OUTDIR>
@@ -60,6 +61,7 @@ Optional:
 > ```<PATH_TO_FASTQ_DIR>``` is the directory created by Guppy basecaller (not .fastq/.fastq.gz files).<br/>
 > If you use basecalled data from Nanopore sequencers, please make sure the folder includes ```./workspace/**.fast5```
 
+![m6ATM](fig1.jpg) 
 ### Requirements
 | Software | Version |
 | --- | --- |
