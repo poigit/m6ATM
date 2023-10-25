@@ -61,7 +61,9 @@ Optional:
 > ```<PATH_TO_FASTQ_DIR>``` is the directory created by Guppy basecaller (not .fastq/.fastq.gz files).<br/>
 > If you use basecalled data from Nanopore sequencers, please make sure the folder includes ```./workspace/**.fast5```
 
-![m6ATM](fig1.jpg) 
+Yellow blocks indicate the target data interval.
+![collection](fig1.png) 
+
 ### Requirements
 | Software | Version |
 | --- | --- |
