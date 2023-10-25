@@ -5,16 +5,13 @@
 ### Installation
 ```
 git clone https://github.com/poigit/m6ATM.git
-
+cd m6ATM/src
 ```
 ```shell
 conda create -n m6atm python=3.7
 conda activate m6atm
 python -m pip install .
 ```
-
-
-
 
 ### Data preparation from Fast5
 We recommend starting from raw .fast5 data to prevent any missing values in requried data. 
