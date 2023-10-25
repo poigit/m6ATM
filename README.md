@@ -1,5 +1,5 @@
 ## m6ATM v0.0.1
-! [m6ATM](logo.jpg) 
+![m6ATM](logo.jpg) 
 
 ## Getting Started
 ### Installation
@@ -22,7 +22,7 @@ For more details, please see: *to be continued*
 ```shell
 $ guppy_basecaller -c rna_r9.4.1_70bps_hac.cfg \
 -i <PATH_TO_FAST5_DIR> -s <PATH_TO_FASTQ_DIR> \
--r --compress_fastq --fast5_out  
+-x auto -r --compress_fastq --fast5_out  
 ```
 #### Alignment
 ```shell
@@ -60,4 +60,9 @@ Optional:
 > ```<PATH_TO_FASTQ_DIR>``` is the directory created by Guppy basecaller (not .fastq/.fastq.gz files).<br/>
 > If you use basecalled data from Nanopore sequencers, please make sure the folder includes ```./workspace/**.fast5```
 
-
+### Requirements
+| Software | Version |
+| --- | --- |
+| guppy_basecaller | 5.0.11 |
+| minimap2 | 2.21-r1071 |
+| samtools | 1.12 |
