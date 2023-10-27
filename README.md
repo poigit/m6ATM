@@ -1,7 +1,7 @@
 # m6ATM v0.0.1
-! [m6ATM](logo.jpg) 
+![m6ATM](logo.jpg) 
 
-# Installation
+## Installation
 ```
 git clone https://github.com/poigit/m6ATM.git
 cd m6ATM/src
@@ -12,19 +12,19 @@ conda activate m6atm
 python -m pip install .
 ```
 
-# Getting Started
-## Data preparation from Fast5
+## Getting Started
+### Data preparation from Fast5
 We recommend starting from raw .fast5 data to prevent any missing values in requried data. 
 However, it is possible to skip this step if basecalled fast5 files and bam files are available. 
 For more details, please see: *to be continued*
 
-### Basecalling
+#### Basecalling
 ```shell
 $ guppy_basecaller -c rna_r9.4.1_70bps_hac.cfg \
 -i <PATH_TO_FAST5_DIR> -s <PATH_TO_FASTQ_DIR> \
 -x auto -r --compress_fastq --fast5_out  
 ```
-### Alignment
+#### Alignment
 ```shell
 $ minimap2 -ax splice -k14 -uf --secondary=no <PATH_TO_REF> <PATH_TO_FASTQ_GZ> > <PATH_TO_SAM>
 $ samtools view -hbS -F0x900 <PATH_TO_SAM> > <PATH_TO_BAM>
