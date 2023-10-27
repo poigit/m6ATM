@@ -11,6 +11,7 @@ conda create -n m6atm python=3.7
 conda activate m6atm
 python -m pip install .
 ```
+<br>
 
 ## Getting Started
 ### Data preparation from Fast5
