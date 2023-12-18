@@ -13,6 +13,12 @@ python -m pip install .
 ```
 <br>
 
+## Quick Start
+```shell
+$ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -m <PATH_TO_MODEL> -o <PATH_TO_OUTDIR>
+```
+
+
 ## Getting Started
 ### Data preparation from Fast5
 We recommend starting from raw .fast5 data to prevent any missing values in requried data. 
