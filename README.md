@@ -33,11 +33,14 @@ $ samtools sort <PATH_TO_BAM> -o <PATH_TO_SORTED_BAM>
 $ samtools index <PATH_TO_SORTED_BAM>
 ```
 <br>
+
 ### Prediction
 m6ATM re-align and collect **current intensity (signal)** and **base proability (trace)** data from each DRACH site for m6A prediction.
 ```shell
 $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -m <PATH_TO_MODEL> -o <PATH_TO_OUTDIR>
 ```
+<br>
+
 ### Output
 1. results.csv
   
