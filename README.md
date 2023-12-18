@@ -49,6 +49,8 @@ $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> \
 | ENST00000000412 | 2130 | GGACT | 64 | 0.998 | yes |
 | ENST00000002165 | 1782 | GGACC | 32 | 0.227 | no |
 
+![m6ATM](seg.png)
+
 #### Arguments
 ```
 usage: m6atm run [-h] -f -b -r -m -o [-P] [-N] [-M] [-p]
