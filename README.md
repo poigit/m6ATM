@@ -39,9 +39,6 @@ m6ATM re-align and collect **current intensity (signal)** and **base proability 
 $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> \
 -m <PATH_TO_MODEL> -o <PATH_TO_OUTDIR>
 ```
-<br>
-
-![m6ATM](seg.png)
 ![m6ATM](model.png)
 
 ### Output
