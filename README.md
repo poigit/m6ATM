@@ -38,7 +38,11 @@ m6ATM re-align and collect **current intensity (signal)** and **base proability 
 $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -m <PATH_TO_MODEL> -o <PATH_TO_OUTDIR>
 ```
 Output: results.csv
-
+| transcript | position | motif | coverage | probability | m6a 
+| --- | --- | --- | --- | --- | --- |
+| ENST00000000233 | 178 | AGACC | 142 | 0.011 | no |
+| ENST00000000412 | 2130 | GGACT | 64 | 0.998 | yes |
+| ENST00000002165 | 1782 | GGACC | 32 | 0.227 | no |
 
 #### Arguments
 ```
@@ -73,18 +77,7 @@ Optional:
 > If you use basecalled data from Nanopore sequencers, please make sure the folder includes ```./workspace/**.fast5```
 
 #### Output
-```m6atm preprocess``` saves preprocessed data in a hdf5 file as following:
 
-    ├── 0                                  # batch number
-    ├── 1
-    │   ├── m6ATM               
-    │       ├── readID_contig_position     # record ID
-    │           ├── ctg                    # contig
-    │           ├── data                   # signal & trace data
-    │           ├── id                     # readID
-    │           ├── motif                  # 5-mer motif
-    │           ├── pos                    # position on contig
-    └── ...
 
 **Signal** and **Trace** data is retrieved in a specific interval (yellow blocks in the figure below) that corresponds to signal segmentation.
 ![collection](fig1.png) 
