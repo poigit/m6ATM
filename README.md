@@ -13,19 +13,18 @@ python -m pip install .
 ```
 <br>
 
-## Quick Start
-### Data preparation from Fast5
+## Data preparation
 We recommend starting from raw .fast5 data to prevent any missing values in requried data. 
 However, it is possible to skip this step if basecalled fast5 files and bam files are available. 
 For more details, please see: *to be continued*
 
-#### Basecalling
+### Basecalling
 ```shell
 $ guppy_basecaller -c rna_r9.4.1_70bps_hac.cfg \
 -i <PATH_TO_FAST5_DIR> -s <PATH_TO_FASTQ_DIR> \
 -x auto -r --compress_fastq --fast5_out  
 ```
-#### Alignment
+### Alignment
 ```shell
 $ minimap2 -ax splice -k14 -uf --secondary=no <PATH_TO_REF> <PATH_TO_FASTQ_GZ> > <PATH_TO_SAM>
 $ samtools view -hbS -F0x900 <PATH_TO_SAM> > <PATH_TO_BAM>
@@ -34,10 +33,11 @@ $ samtools index <PATH_TO_SORTED_BAM>
 ```
 <br>
 
-### Prediction
+## Quick Start
 m6ATM re-align and collect **current intensity (signal)** and **base proability (trace)** data from each DRACH site for m6A prediction.
 ```shell
-$ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -m <PATH_TO_MODEL> -o <PATH_TO_OUTDIR>
+$ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> \
+-m <PATH_TO_MODEL> -o <PATH_TO_OUTDIR>
 ```
 <br>
 
