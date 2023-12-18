@@ -36,7 +36,7 @@ $ samtools index <PATH_TO_SORTED_BAM>
 ## Quick Start
 m6ATM re-align and collect **current intensity (signal)** and **base proability (trace)** data from each DRACH site for m6A prediction using a Wavenet-DSMIL model.
 ```shell
-$ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -o <PATH_TO_OUTDIR>
+$ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF_TX> -o <PATH_TO_OUTDIR>
 ```
 ![m6ATM](model.png)
 
@@ -78,6 +78,14 @@ Optional:
 > [!IMPORTANT]
 > ```<PATH_TO_FASTQ_DIR>``` is the directory created by Guppy basecaller (not .fastq/.fastq.gz files).<br/>
 > If you use basecalled data from Nanopore sequencers, please make sure the folder includes ```./workspace/**.fast5```
+
+### Visualization
+To visualize results in a genome browser (e.g. IGV), a genome annotation version needs to be specified for coordination conversion.
+```shell
+$ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -o <PATH_TO_OUTDIR> \
+-t <PATH_TO_TX_TABLE> \
+-R <PATH_TO_REF_GENOME>
+```
 
 ### Requirements
 | Software | Version |
