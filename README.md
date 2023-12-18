@@ -40,18 +40,17 @@ $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> \
 -m <PATH_TO_MODEL> -o <PATH_TO_OUTDIR>
 ```
 <br>
+![m6ATM](seg.png)
+![m6ATM](model.png)
 
 ### Output
-#### results.csv
 | transcript | position | motif | coverage | probability | m6a 
 | --- | --- | --- | --- | --- | --- |
 | ENST00000000233 | 178 | AGACC | 142 | 0.011 | no |
 | ENST00000000412 | 2130 | GGACT | 64 | 0.998 | yes |
 | ENST00000002165 | 1782 | GGACC | 32 | 0.227 | no |
 
-![m6ATM](seg.png)
-
-#### Arguments
+### Arguments
 ```
 usage: m6atm run [-h] -f -b -r -m -o [-P] [-N] [-M] [-p]
                  [-l] [-L] [-t] [-R] [-T] [-x] [--keep_file]
