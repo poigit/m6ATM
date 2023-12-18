@@ -80,12 +80,6 @@ Optional:
 > ```<PATH_TO_FASTQ_DIR>``` is the directory created by Guppy basecaller (not .fastq/.fastq.gz files).<br/>
 > If you use basecalled data from Nanopore sequencers, please make sure the folder includes ```./workspace/**.fast5```
 
-#### Output
-
-
-**Signal** and **Trace** data is retrieved in a specific interval (yellow blocks in the figure below) that corresponds to signal segmentation.
-![collection](fig1.png) 
-
 ### Requirements
 | Software | Version |
 | --- | --- |
