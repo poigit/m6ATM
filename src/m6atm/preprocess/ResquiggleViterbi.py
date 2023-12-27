@@ -8,6 +8,7 @@ from numba.typed import List
 import dask
 import dask.bag as db
 from dask.distributed import Client, LocalCluster
+from dask.diagnostics import ProgressBar
 
 from .ResquiggleUtils import *
 
@@ -81,8 +82,9 @@ def ViterbiH5(file, len_threshold):
 def VbDask(files, len_threshold, npartitions = 96):
     
     ### dask.bag for fast5 files
-    h5_bags = db.from_sequence(files, npartitions = npartitions)
-    dask_out = h5_bags.map(ViterbiH5, len_threshold = len_threshold).compute()
+    with ProgressBar():
+        h5_bags = db.from_sequence(files, npartitions = npartitions)
+        dask_out = h5_bags.map(ViterbiH5, len_threshold = len_threshold).compute()
     
     return dask_out
 
