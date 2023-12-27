@@ -83,8 +83,7 @@ Optional:
 To visualize results in a genome browser (e.g. IGV), a genome annotation version needs to be specified for coordination conversion.
 ```shell
 $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -o <PATH_TO_OUTDIR> \
--t <PATH_TO_TX_TABLE> \
--R <PATH_TO_REF_GENOME>
+-t <PATH_TO_TX_TABLE> -R <PATH_TO_REF_GENOME>
 ```
 #### m6a.bed
 | chrom | chromStart | chromEnd | name | score | strand |
