@@ -86,7 +86,9 @@ $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -o <
 -t <PATH_TO_TX_TABLE> \
 -R <PATH_TO_REF_GENOME>
 ```
-#### Results.bed
+#### m6a.bed
+| chrom | chromStart | chromEnd | name | score | strand |
+| --- | --- | --- | --- | --- | --- 
 | chr10 | 100275175 | 100275176 | BLOC1S2 | 0.26 | -
 | chr10 | 100275203 | 100275204 | BLOC1S2 | 0.53 | -
 | chr10 | 100363174 | 100363175 | SCD | 0.27 | + | -
