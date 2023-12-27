@@ -41,11 +41,11 @@ $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF_TX> -
 ![m6ATM](model.png)
 
 ### Output
-| transcript | position | motif | coverage | probability | m6a 
-| --- | --- | --- | --- | --- | --- |
-| ENST00000000233 | 178 | AGACC | 142 | 0.011 | no |
-| ENST00000000412 | 2130 | GGACT | 64 | 0.998 | yes |
-| ENST00000002165 | 1782 | GGACC | 32 | 0.227 | no |
+| transcript | position | motif | coverage | probability | m6a | m6a
+| --- | --- | --- | --- | --- | --- | --- |
+| ENST00000000233 | 178 | AGACC | 142 | 0.011 | no | ---
+| ENST00000000412 | 2130 | GGACT | 64 | 0.998 | yes | 0.32
+| ENST00000002165 | 1782 | GGACC | 32 | 0.227 | no | ---
 
 ### Arguments
 ```
