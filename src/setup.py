@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.1' 
+VERSION = '0.0.2' 
 DESCRIPTION = 'm6ATM - m6A Transcrtipome-wide Mapper'
 LONG_DESCRIPTION = 'm6ATM is a deep learning based m6A detection model using Nanopore Direct RNA sequencing data.'
 
