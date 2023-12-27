@@ -41,7 +41,6 @@ $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF_TX> -
 ![m6ATM](model.png)
 
 ### Output
-#### Results.csv
 | transcript | position | motif | coverage | probability | m6a | ratio
 | --- | --- | --- | --- | --- | --- | --- |
 | ENST00000000233 | 178 | AGACC | 142 | 0.011 | no | -
