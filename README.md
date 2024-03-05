@@ -49,8 +49,8 @@ $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF_TX> -
 
 ### Arguments
 ```
-usage: m6atm run [-h] -f -b -r -m -o [-P] [-N] [-M] [-p]
-                 [-l] [-L] [-t] [-R] [-T] [-x] [--keep_file]
+usage: m6atm run [-h] -f -b -r -o [-P] [-N] [-M] [-p] [-l]
+                 [-L] [-s] [-S] [-t] [-R] [-T] [-x] [-Q]
 
 optional arguments:
   -h, --help           show this help message and exit
@@ -68,10 +68,12 @@ Optional:
   -p, --port       port for dask scheculer (default: 8788)
   -l, --min_len    minimum read length (default: 500)
   -L, --max_len    maximum read length (default: 20000)
+  -s, --min_read   minimum read number at each site (default: 20)
+  -S, --max_read   maximum read length at each site (default: 1000)
   -t, --tx         transcript table from UCSC
   -R, --ref_gn     path to reference genome
   -T, --thres      probability threshold (default: 0.9)
-  -x, --device     cuda or cpu (default: auto)
+  -x, --device     <cuda:id> or <cpu> (default: cuda:0)
   -Q, --mode       run/preprocess/predict
 ```
 
