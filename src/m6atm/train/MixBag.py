@@ -6,11 +6,13 @@ from joblib import Parallel, delayed
 
 from ModelData import *
 
-def get_mixed_loader(bag_data, label_data, split = True):
+def get_mixed_loader(bag_data, label_data, size_data = None, site_data = None, split = True, signal_only = False):
     
     ### dataloader
     if split: # for training 
-        dataset = WNBagloader(data = bag_data, label = label_data, transform = transforms.Compose([ToTensor()]))
+        dataset = WNBagloader(data = bag_data, label = label_data, site = site_data, coverage = size_data,
+                              signal_only = signal_only, transform = transforms.Compose([ToTensor()]))
+        
         train_size = int(0.7*len(dataset))
         test_size = len(dataset)-train_size
         dataset_train, dataset_test = torch.utils.data.random_split(dataset, [train_size, test_size])
@@ -20,7 +22,9 @@ def get_mixed_loader(bag_data, label_data, split = True):
         return [dataloader_train, dataloader_test]
     
     else: # for prediction
-        dataset = WNBagloader(data = bag_data, label = label_data, transform = transforms.Compose([ToTensor()]))
+        dataset = WNBagloader(data = bag_data, label = label_data, site = site_data, coverage = size_data,
+                              signal_only = signal_only, transform = transforms.Compose([ToTensor()]))
+        
         dataloader = torch.utils.data.DataLoader(dataset, batch_size = 1, shuffle = False)
         
         return dataloader
@@ -28,10 +32,22 @@ def get_mixed_loader(bag_data, label_data, split = True):
     
 def load_mixed_bags(data_dir, prefix):
     
-    bag_mixed_list = np.load(os.path.join(data_dir, prefix+'_bag.npy'), allow_pickle = True).tolist()
+    bag_mixed_list = np.load(os.path.join(data_dir, prefix+'_bag.npy'), allow_pickle = True)
     pct_mixed_list = np.load(os.path.join(data_dir, prefix+'_label.npy')).tolist()
+
+    size_data = os.path.join(data_dir, prefix+'_size.npy')
+    site_data = os.path.join(data_dir, prefix+'_site.npy')
     
-    return bag_mixed_list, pct_mixed_list
+    if (os.path.isfile(size_data)) & (os.path.isfile(site_data)):
+        
+        size_mixed_list = np.load(size_data).tolist()
+        site_mixed_list = np.load(site_data, allow_pickle = True).tolist()
+    
+        return bag_mixed_list, pct_mixed_list, size_mixed_list, site_mixed_list
+    
+    else:
+        
+        return bag_mixed_list, pct_mixed_list
 
 
 def get_mixed_bags(data_dir1, data_dir2, out_dir, prefix = 'train', n_range = [20, None], bag_size = [20, 30], pct_range = [0.2, 1], n_bags = 3, processes = 4):
@@ -69,6 +85,8 @@ def get_mixed_bags(data_dir1, data_dir2, out_dir, prefix = 'train', n_range = [2
     mixed_list_p = sum(results[0], [])
     mixed_list_n = sum(results[1], [])
     pct_mixed_list = sum(results[2], [])
+    size_mixed_list = sum(results[3], [])
+    site_mixed_list = sum(results[4], [])
     
     ### get mixed bags
     bag_mixed_list = []
@@ -88,19 +106,23 @@ def get_mixed_bags(data_dir1, data_dir2, out_dir, prefix = 'train', n_range = [2
     ### save bags
     np.save(os.path.join(out_dir, prefix+'_bag.npy'), np.array(bag_mixed_list, dtype = object))
     np.save(os.path.join(out_dir, prefix+'_label.npy'), np.array(pct_mixed_list))
+    np.save(os.path.join(out_dir, prefix+'_size.npy'), np.array(size_mixed_list))
+    np.save(os.path.join(out_dir, prefix+'_site.npy'), np.array(site_mixed_list, dtype = object))
     
-    return bag_mixed_list, pct_mixed_list
+    return bag_mixed_list, pct_mixed_list, size_mixed_list, site_mixed_list
 
 
 def get_premixed(site, data_p, data_n, site_dict_p, site_dict_n, bag_size = [20, 30], n_bags = 3, pct_range = [0.2, 1]):
     
     idx_list_p, idx_list_n = site_dict_p[site], site_dict_n[site]
-    pos_idx_list, neg_idx_list, pct_list = mix_bags(idx_list_p, idx_list_n, bag_size = bag_size, pct_range = pct_range, n_bags = n_bags)
+    pos_idx_list, neg_idx_list, pct_list, size_list = mix_bags(idx_list_p, idx_list_n, bag_size = bag_size, pct_range = pct_range, n_bags = n_bags)
 
     premixed_p = [get_subset(data_p, idx) for idx in pos_idx_list]
     premixed_n = [get_subset(data_n, idx) for idx in neg_idx_list]
+    
+    site_list = [site]*len(size_list)
         
-    return premixed_p, premixed_n, pct_list
+    return premixed_p, premixed_n, pct_list, size_list, site_list
 
 
 def mix_bags(idx_list_p, idx_list_n, bag_size = [20, 30], pct_range = [0.2, 1], n_bags = 3):
@@ -109,12 +131,16 @@ def mix_bags(idx_list_p, idx_list_n, bag_size = [20, 30], pct_range = [0.2, 1], 
     pos_idx_list = []
     neg_idx_list = []
     pct_list = []
+    size_list = []
     for label in [1, 0]:
     
         i = 0
         while i<n_bags:
             # pct & size
             sample_size = random.randint(bag_size[0], bag_size[1])
+            if sample_size>min(len(idx_list_p), len(idx_list_n)):
+                sample_size = min(len(idx_list_p), len(idx_list_n))
+            
             pct = round(random.uniform(pct_range[0], pct_range[1]), 2)
 
             # pos & neg size
@@ -140,7 +166,8 @@ def mix_bags(idx_list_p, idx_list_n, bag_size = [20, 30], pct_range = [0.2, 1], 
             pos_idx_list.append(pos_idx)
             neg_idx_list.append(neg_idx)
             pct_list.append(pct)
+            size_list.append(sample_size)
 
             i+=1
         
-    return pos_idx_list, neg_idx_list, pct_list
+    return pos_idx_list, neg_idx_list, pct_list, size_list

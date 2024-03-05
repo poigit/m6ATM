@@ -35,6 +35,7 @@ class WaveNetModel(nn.Module):
                  skip_channels = 256,
                  end_channels = 128,
                  input_channels = 5,
+                 last_channels = 10144,
                  kernel_size = 2,
                  num_classes = 2,
                  dropout = 0.2,
@@ -49,6 +50,7 @@ class WaveNetModel(nn.Module):
         self.residual_channels = residual_channels
         self.skip_channels = skip_channels
         self.input_channels = input_channels
+        self.last_channels = last_channels
         self.kernel_size = kernel_size
         self.dtype = dtype
         self.num_classes = num_classes
@@ -129,7 +131,7 @@ class WaveNetModel(nn.Module):
         self.relu = nn.ReLU()
         
         ### Dense layer
-        self.output_layer = nn.Sequential(nn.Linear(32*317, 1024), # maxpool out_size
+        self.output_layer = nn.Sequential(nn.Linear(self.last_channels, 1024), # maxpool out_size
                                           nn.ReLU(),
                                           nn.Dropout(dropout),
                                           nn.Linear(1024, 256),
@@ -138,7 +140,7 @@ class WaveNetModel(nn.Module):
                                           nn.Linear(256, num_classes))
         
         
-        self.fc1 = nn.Sequential(nn.Linear(32*317, 1024)) # maxpool out_size
+        self.fc1 = nn.Sequential(nn.Linear(self.last_channels, 1024)) # maxpool out_size # 32*317
         self.fc2 = nn.Sequential(nn.Linear(1024, 256),
                                  nn.ReLU(),
                                  nn.Dropout(dropout),
@@ -147,7 +149,7 @@ class WaveNetModel(nn.Module):
         
     def wavenet(self, input, dilation_func):
 
-        x = self.start_conv(input) # [5, 256] -> [32, 256]
+        x = self.start_conv(input) # [1, 1280] -> [32, 256]
         skip = 0
 
         # WaveNet layers
@@ -233,13 +235,14 @@ class WaveNetModel(nn.Module):
         x = F.relu(self.end_conv_1(x))
         x = self.maxpool(x)
         x = F.relu(self.end_conv_2(x))
-        x = self.maxpool(x) # 32*317
+        x = self.maxpool(x)
         
         x = x.view(x.size(0), -1)
         feats = self.fc1(x)
         y = self.fc2(self.dropout(self.relu(feats)))
         
         return feats, y
+    
     
 
 

@@ -14,14 +14,15 @@ def predict(args):
     ref_gn =  args.ref_gn
     processes = args.n_proc
     thres = args.thres
-    device = args.device
+    min_read = args.min_read
+    max_read = args.max_read
     
     # temp dir 
     temp_dir = os.path.join(data_dir, 'temp')
     os.makedirs(temp_dir, exist_ok = True)
     
     # to bag
-    bag_class = MD.ATMbag(data_dir, processes = processes)
+    bag_class = MD.ATMbag(data_dir, n_range = [min_read, max_read], processes = processes)
     bag_class.to_bag(temp_dir)
     
     # prediction
@@ -32,12 +33,12 @@ def predict(args):
     for f1, f2 in zip(bag_data_list, bag_meta_list):
 
         ### bags
-        bag_data = np.load(f1, allow_pickle = True).tolist()
+        bag_data = np.load(f1, allow_pickle = True)
         bag_meta = pd.read_csv(f2, index_col = 0)
 
         ### dataloader
-        dataset = MD.WNBagloader(data = bag_data,
-                                 transform = transforms.Compose([MD.ToTensor(device = device)]),
+        dataset = MD.WNBagloader(data = list(bag_data),
+                                 transform = transforms.Compose([MD.ToTensor()]),
                                  site = bag_meta['site'],
                                  coverage = bag_meta['coverage'])
         
@@ -46,7 +47,7 @@ def predict(args):
         ### prediction
         dsmil_pth = files('m6atm.model').joinpath('dsmil_ivt.pth')
         classifier_pth = files('m6atm.model').joinpath('classifer_ivt.pth')
-        result = MD.dsmil_pred(dsmil_pth, classifier_pth, dataloader, out_dir = temp_dir, thres = thres, device = device)
+        result = MD.dsmil_pred(dsmil_pth, classifier_pth, dataloader, out_dir = temp_dir, thres = thres)
         results.append(result)
 
     results = pd.concat(results, axis = 0)

@@ -77,7 +77,7 @@ class DSMIL(nn.Module):
         
         return classes, pred_bag, A, B
     
-
+    
 class ReadClassifier(nn.Module):
     
     def __init__(self, in_size = 1024, out_size = 2, dropout = 0.5):

@@ -3,12 +3,12 @@ from m6atm.preprocess.m6atm import *
 from m6atm.train.predict import *
 from m6atm.train.run_model import *
 
-__version__ = '0.0.1'
+__version__ = '1.0.0'
 
 def main():
     
     ### main parser
-    parser = argparse.ArgumentParser(prog = 'm6atm', description = 'm6ATM v0.0.1')
+    parser = argparse.ArgumentParser(prog = 'm6atm', description = 'm6ATM v0.0.3')
     subparsers = parser.add_subparsers(help = 'modules', metavar = '{run, preprocess, predict, visualize}')
     parser.add_argument('-v', '--version', action = 'version', version = 'm6ATM %s'%(__version__))
     
@@ -28,11 +28,13 @@ def main():
     opt3.add_argument('-p', '--port', dest = 'port', metavar = '\b', type = str, help = 'port for dask scheculer (default: 8788)', default = '8788')
     opt3.add_argument('-l', '--min_len', metavar = '\b', type = int, help = 'minimum read length (default: 500)', default = 500)
     opt3.add_argument('-L', '--max_len', metavar = '\b', type = int, help = 'maximum read length (default: 20000)', default = 20000)
+    opt3.add_argument('-s', '--min_read', metavar = '\b', type = int, help = 'minimum read number at each site (default: 20)', default = 20)
+    opt3.add_argument('-S', '--max_read', metavar = '\b', type = int, help = 'maximum read length at each site (default: 1000)', default = 1000)
     
     opt3.add_argument('-t', '--tx', dest = 'tx', metavar = '\b', type = str, help = 'transcript table from UCSC')
     opt3.add_argument('-R', '--ref_gn', dest = 'ref_gn', metavar = '\b', type = str, help = 'path to reference genome')
     opt3.add_argument('-T', '--thres', dest = 'thres', metavar = '\b', type = float, default = 0.9, help = 'probability threshold (default: 0.9)')
-    opt3.add_argument('-x', '--device', dest = 'device', metavar = '\b', type = str, default = 'auto', help = 'cuda or cpu (default: auto)')
+    opt3.add_argument('-x', '--device', dest = 'device', metavar = '\b', type = str, default = 'cuda:0', help = '<cuda:id> or <cpu> (default: cuda:0)')
     
     opt3.add_argument('-Q', '--mode', dest = 'mode', metavar = '\b', type = str, default = 'run', help = 'run/preprocess/predict')
     

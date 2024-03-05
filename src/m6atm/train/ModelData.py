@@ -3,8 +3,10 @@ import os, glob, gc, random, math, tsaug
 import numpy as np, pandas as pd
 import matplotlib.pyplot as plt, seaborn as sns
 from collections import OrderedDict
+from Bio.Seq import IUPACData
 from tqdm.auto import tqdm
 from joblib import Parallel, delayed
+from itertools import product
 
 # pytorch
 import torch
@@ -35,6 +37,7 @@ class ATMbag():
         self.data_dir = data_dir
         self.data = glob.glob(os.path.join(data_dir, '*_data.npy'))[0]
         self.label = glob.glob(os.path.join(data_dir, '*_label.npy'))[0]
+        self.fname = os.path.basename(self.data).split('_data')[0]
         
         self.n_range = n_range
         self.len_range = len_range
@@ -94,24 +97,61 @@ class ATMbag():
             
         return idx_list
     
-    def to_bag(self, out_dir, batch_size = 5000):
+    def to_bag(self, out_dir, batch_size = 5000, random_size = None, fold = 1, downsample = None, gt_site = None, gt_site_rev = None):
         
         ### groupby site
         data, meta = self.load_np(k = self.data_size)
         idx_list, site_list, coverage_list = self._get_idx(meta)
+        
+        if gt_site:
+            
+            selected = [site in gt_site for site in site_list]
 
+            idx_list = [i for i, k in zip(idx_list, selected) if k]
+            site_list = [i for i, k in zip(site_list, selected) if k]
+            coverage_list = [i for i, k in zip(coverage_list, selected) if k]
+            
+        elif gt_site_rev:
+            
+            selected = [site not in gt_site_rev for site in site_list]
+
+            idx_list = [i for i, k in zip(idx_list, selected) if k]
+            site_list = [i for i, k in zip(site_list, selected) if k]
+            coverage_list = [i for i, k in zip(coverage_list, selected) if k]
+
+        if downsample:
+            if len(idx_list)>downsample:
+                
+                k_list = sorted(random.sample(range(len(idx_list)), downsample))
+                idx_list = [idx_list[i] for i in k_list]
+                site_list = [site_list[i] for i in k_list]
+                coverage_list = [coverage_list[i] for i in k_list]
+        
         ### batch size
-        for n, i in tqdm(enumerate(range(0, len(idx_list), batch_size)), total = (len(idx_list)//batch_size)+1):
+        for n, i in tqdm(enumerate(range(0, len(idx_list), batch_size)), total = ((len(idx_list)-1)//batch_size)+1):
 
             idx_batch = idx_list[i:i+batch_size]
             site_batch = site_list[i:i+batch_size]
             coverage_batch = coverage_list[i:i+batch_size]
-
-            bag_data = Parallel(n_jobs = self.processes)(delayed(get_subset)(data, idx) for idx in tqdm(idx_batch, leave = False))
-            bag_meta = pd.DataFrame({'site': site_batch, 'coverage': coverage_batch})
-
-            np.save(os.path.join(out_dir, 'bag_%s.npy'%(n)), np.array(bag_data, dtype = object))
-            bag_meta.to_csv(os.path.join(out_dir, 'site_%s.csv'%(n)))
+            
+            if fold>1:
+                bag_data_list = []
+                bag_meta_list = []
+                for i in range(fold):
+                    bag_data = Parallel(n_jobs = self.processes)(delayed(get_subset)(data, idx, k = random_size) for idx in tqdm(idx_batch, leave = False))
+                    bag_meta = pd.DataFrame({'site': site_batch, 'coverage': coverage_batch})
+                    
+                    bag_data_list.extend(bag_data)
+                    bag_meta_list.append(bag_meta)
+                    
+                bag_meta_list = pd.concat(bag_meta_list, axis = 0)
+                
+            else:
+                bag_data_list = Parallel(n_jobs = self.processes)(delayed(get_subset)(data, idx, k = random_size) for idx in tqdm(idx_batch, leave = False))
+                bag_meta_list = pd.DataFrame({'site': site_batch, 'coverage': coverage_batch})
+                
+            np.save(os.path.join(out_dir, 'bag_%s_%s.npy'%(self.fname, n)), np.array(bag_data_list, dtype = object))
+            bag_meta_list.to_csv(os.path.join(out_dir, 'site_%s_%s.csv'%(self.fname, n)))
 
             gc.collect()
     
@@ -126,9 +166,18 @@ class ATMbag():
         return data, site_dict
     
 
-def get_subset(data, idx):
+def get_subset(data, idx, k = None):
     
     if idx:
+        if k is not None:
+            if k[0]<len(idx):
+
+                sample_size = random.randint(k[0], k[1])
+                while sample_size>=len(idx):
+                    sample_size = max(k[0], int(sample_size*0.5))
+
+                idx = sorted(random.sample(idx, k = sample_size))
+        
         bag = data[idx,:]
         bag = bag.reshape(bag.shape[0], bag.shape[1], 1)
         
@@ -140,7 +189,7 @@ def get_subset(data, idx):
 
 class WNBagloader():
     
-    def __init__(self, data, label = None, transform = None, site = None, coverage = None):
+    def __init__(self, data, label = None, transform = None, site = None, coverage = None, signal_only = False):
         
         '''
         Args:
@@ -152,6 +201,7 @@ class WNBagloader():
         self.transform = transform
         self.site = site
         self.coverage = coverage
+        self.signal = signal_only
         
     def __len__(self):
         return len(self.data)
@@ -160,8 +210,11 @@ class WNBagloader():
         if torch.is_tensor(idx):
             idx = idx.tolist()
         
-        data = self.data[idx]
+        data = self.data[idx].astype('float64')
         data = data.swapaxes(1, 2) # (n_queries, feature_dim, feature_len)
+        
+        if self.signal:
+            data = data[:,:,0:256]
         
         if self.label:
             pct = self.label[idx]
@@ -281,7 +334,6 @@ def dsmil_pred(dsmil_file, classifier_file, dataloader, out_dir, thres = 0.9, de
 
         # forward
         data, _, _ = batch[0].squeeze(0).float().to(device), batch[1].float().to(device), batch[2].float().to(device)
-        pred_ins, pred_bag, A, B = dsmil(data)
 
         # dsmil
         feats, pred_ins = dsmil.i_classifier.encoder(data)
@@ -301,14 +353,14 @@ def dsmil_pred(dsmil_file, classifier_file, dataloader, out_dir, thres = 0.9, de
 
     prob_list = [round(i, 3) for i in pred_list]
     mod_list = ['yes' if i>=thres else 'no' for i in prob_list]
-
+    
     result_table = pd.DataFrame({'transcript': [site.split('/')[0].split('.')[0] for site in site_list],
                                  'position': [int(site.split('/')[1]) for site in site_list],                
                                  'motif': [site.split('/')[2] for site in site_list],
                                  'coverage': coverage_list, 
                                  'probability': prob_list,
                                  'm6a': mod_list,
-                                 'ratio': ratio_list})
+                                 'ratio': ratio_list})      
 
     return result_table    
     
@@ -460,4 +512,9 @@ def merge_int(x):
     str_list = list(map(str, x))
     merged = ','.join(str_list)
     return merged
+
+def extend_ambiguous(seq):
+    
+    d = IUPACData.ambiguous_dna_values
+    return list(map(''.join, product(*map(d.get, seq)))) 
     
