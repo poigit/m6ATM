@@ -16,7 +16,7 @@ python -m pip install .
 ## Data preparation
 We recommend starting from raw .fast5 data to prevent any missing values in requried data. 
 However, it is possible to skip this step if basecalled fast5 files and bam files are available. 
-For more details, please see: *to be continued*
+For more details, please see the section **Arguments**.
 
 ### Basecalling
 ```shell
