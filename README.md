@@ -1,4 +1,4 @@
-# m6ATM v0.0.2
+# m6ATM v1.0.0
 ![m6ATM](intro.png) 
 
 ## Installation
