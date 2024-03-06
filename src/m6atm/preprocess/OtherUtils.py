@@ -16,13 +16,13 @@ from .ResquiggleUtils import get_traceboundary
 def create_log(tag, path, job, clean = False):
     
     if clean == True:
-        for f in glob.glob(path+'/*.log'):
+        for f in glob.glob(os.path.join(path, '*.log')):
             os.remove(f)
         
     logger = logging.getLogger(tag)
     logger.setLevel(level=logging.INFO)
-    logger.addHandler(logging.FileHandler(path+'/'+job+'_'+tag+'.log'))
-                      
+    logger.addHandler(logging.FileHandler(os.path.join(path, job+'_'+tag+'.log')))
+    
     return logger
 
 ### Read data 
