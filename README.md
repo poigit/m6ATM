@@ -97,14 +97,14 @@ To visualize results in a genome browser (e.g. IGV), a genome annotation version
 $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -o <PATH_TO_OUTDIR> \
 -t <PATH_TO_TX_TABLE> -R <PATH_TO_REF_GENOME>
 ```
-#### m6a.bed
+#### results.bed & results.bedGraph
 | chrom | chromStart | chromEnd | name | score | strand |
 | --- | --- | --- | --- | --- | --- 
 | chr10 | 100275175 | 100275176 | BLOC1S2 | 0.26 | -
 | chr10 | 100275203 | 100275204 | BLOC1S2 | 0.53 | -
 | chr10 | 100363174 | 100363175 | SCD | 0.27 | + | -
 
-#### IGV browser
+#### Example: IGV browser
 ![m6ATM](fig/browser.png)
 
 ### Requirements
