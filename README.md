@@ -34,7 +34,7 @@ $ samtools index <PATH_TO_SORTED_BAM>
 <br>
 
 ## Quick Start
-m6ATM re-align and collect **current intensity (signal)** and **base proability (trace)** data from each DRACH site for m6A prediction using a Wavenet-DSMIL model.
+m6ATM re-aligns and collects **current intensity (signal)** and **base proability (trace)** data from each DRACH site for m6A prediction using a Wavenet-DSMIL model.
 ```shell
 $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF_TX> -o <PATH_TO_OUTDIR>
 ```
