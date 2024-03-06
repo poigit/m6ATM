@@ -1,5 +1,5 @@
 # m6ATM v1.0.0
-![m6ATM](intro.png) 
+![m6ATM](fig/intro.png) 
 
 ## Installation
 ```
@@ -38,7 +38,7 @@ m6ATM re-aligns and collects **current intensity (signal)** and **base proabilit
 ```shell
 $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF_TX> -o <PATH_TO_OUTDIR>
 ```
-![m6ATM](model.png)
+![m6ATM](fig/pipeline.png)
 
 ### Output
 | transcript | position | motif | coverage | probability | m6a | ratio
