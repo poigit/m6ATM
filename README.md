@@ -104,8 +104,7 @@ $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -o <
 -t <PATH_TO_UCSC_TABLE> -R <PATH_TO_REF_GENOME>
 ```
 > [!NOTE]
-> Gene annotation table files can ba available from UCSC Table Browser: https://genome.ucsc.edu/cgi-bin/hgTables. <br/>
-> An example table file for hg38 can be found in data/enst_hg38Tables.tar.gz.
+> Gene annotation table files can ba available from UCSC Table Browser: https://genome.ucsc.edu/cgi-bin/hgTables. An example table file for hg38 can be found in data/enst_hg38Tables.tar.gz.
 
 ### results.bed & results.bedGraph
 | chrom | chromStart | chromEnd | name | score | strand |
