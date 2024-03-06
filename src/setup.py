@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.2' 
+VERSION = '1.0.0' 
 DESCRIPTION = 'm6ATM - m6A Transcrtipome-wide Mapper'
 LONG_DESCRIPTION = 'm6ATM is a deep learning based m6A detection model using Nanopore Direct RNA sequencing data.'
 
@@ -28,6 +28,7 @@ setup(name = 'm6atm',
                           'tsaug>=0.2.1',
                           'matplotlib>=3.5.3',
                           'seaborn>=0.12.2',
-                          'tqdm>=4.65.0'],
+                          'tqdm>=4.65.0',
+                          'importlib_resources>=5.12.0'],
       
      entry_points = {'console_scripts':['m6atm = m6atm.main:main']})
