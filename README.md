@@ -56,8 +56,9 @@ m6ATM generates a site-level report "**results.csv**" on the provided reference 
 > ```probability``` : predicted probability of modification (0 - 1)<br/>
 > ```m6a``` : predicted as m6A site or not based on probability threshold<br/>
 > ```ratio``` : predicted modification ratio (0 - 1)
+<br>
 
-### Arguments
+## Manual
 ```
 usage: m6atm run [-h] -f -b -r -o [-P] [-N] [-M] [-p] [-l]
                  [-L] [-s] [-S] [-t] [-R] [-T] [-x] [-Q]
@@ -90,8 +91,9 @@ Optional:
 > [!IMPORTANT]
 > ```<PATH_TO_FASTQ_DIR>``` is the directory created by Guppy basecaller (not .fastq/.fastq.gz files).<br/>
 > If you use basecalled data from Nanopore sequencers, please make sure the folder includes ```./workspace/**.fast5```
+<br>
 
-### Visualization
+## Visualization
 To generate bed or bedGraph files for data visualization in genome browsers (e.g. IGV), **a gene annotation table file** and **a reference genome file** need to be specified for coordination conversion. <br/>
 ```shell
 $ m6atm visualize -i <PATH_TO_RESULT_CSV> -t <PATH_TO_UCSC_TABLE> -R <PATH_TO_REF_GENOME>
@@ -102,20 +104,20 @@ $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -o <
 -t <PATH_TO_UCSC_TABLE> -R <PATH_TO_REF_GENOME>
 ```
 > [!NOTE]
-> Gene annotation table files can ba available from UCSC Table Browser: https://genome.ucsc.edu/cgi-bin/hgTables. <br/>
-> An example table file for hg38 can be found in data/enst_hg38Tables.tar.gz.
+> Gene annotation table files can ba available from UCSC Table Browser: https://genome.ucsc.edu/cgi-bin/hgTables. An example table file for hg38 can be found in data/enst_hg38Tables.tar.gz.
 
-#### results.bed & results.bedGraph
+### results.bed & results.bedGraph
 | chrom | chromStart | chromEnd | name | score | strand |
 | --- | --- | --- | --- | --- | --- 
 | chr10 | 100275175 | 100275176 | BLOC1S2 | 0.26 | -
 | chr10 | 100275203 | 100275204 | BLOC1S2 | 0.53 | -
 | chr10 | 100363174 | 100363175 | SCD | 0.27 | + | -
 
-#### Example: IGV browser
+### Example: IGV browser
 ![m6ATM](fig/browser.png)
+<br>
 
-### Requirements
+## Requirements
 | Software | Version |
 | --- | --- |
 | guppy_basecaller | 5.0.11 |
