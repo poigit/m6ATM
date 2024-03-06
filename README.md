@@ -93,6 +93,7 @@ Optional:
 
 ### Visualization
 To visualize results in a genome browser (e.g. IGV), a gene annotation table file and a reference genome file needs to be specified for coordination conversion.
+Gene annotation table files can ba available from UCSC Table Browser: https://genome.ucsc.edu/cgi-bin/hgTables. And an example table file for hg38 can be found in data/enst_hg38Tables.tar.gz.
 ```shell
 $ m6atm visualize -i <PATH_TO_RESULT_CSV> -t <PATH_TO_TX_TABLE> -R <PATH_TO_REF_GENOME>
 ```
