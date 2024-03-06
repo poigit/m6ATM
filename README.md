@@ -96,7 +96,7 @@ To visualize results in a genome browser (e.g. IGV), a gene annotation table and
 ```shell
 $ m6atm visualize -i <PATH_TO_RESULT_CSV> -t <PATH_TO_TX_TABLE> -R <PATH_TO_REF_GENOME>
 ```
-Or we can just use a single command of ```m6atm run```:
+Or we can just add arguments to ```m6atm run```:
 ```shell
 $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -o <PATH_TO_OUTDIR> \
 -t <PATH_TO_TX_TABLE> -R <PATH_TO_REF_GENOME>
