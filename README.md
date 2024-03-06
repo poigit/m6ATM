@@ -92,7 +92,11 @@ Optional:
 > If you use basecalled data from Nanopore sequencers, please make sure the folder includes ```./workspace/**.fast5```
 
 ### Visualization
-To visualize results in a genome browser (e.g. IGV), a genome annotation version needs to be specified for coordination conversion.
+To visualize results in a genome browser (e.g. IGV), a gene annotation table and a reference genome file needs to be specified for coordination conversion.
+```shell
+$ m6atm visualize -i <PATH_TO_RESULT_CSV> -t <PATH_TO_TX_TABLE> -R <PATH_TO_REF_GENOME>
+```
+Or we can just use a single command of ```m6atm run```:
 ```shell
 $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -o <PATH_TO_OUTDIR> \
 -t <PATH_TO_TX_TABLE> -R <PATH_TO_REF_GENOME>
