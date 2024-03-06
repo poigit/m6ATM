@@ -49,9 +49,13 @@ m6ATM generates a site-level report "**results.csv**" on the provided reference 
 | ENST00000002165 | 1782 | GGACC | 32 | 0.227 | no | -
 
 > [!NOTE]
-> ```transcript```: reference ID<br/>
-> ```position```: the exact index of m6A base on the reference<br/>
-> ```motif```: DRACH sequence<br/>
+> ```transcript``` : reference ID<br/>
+> ```position``` : the exact index of central adenosine on the reference<br/>
+> ```motif``` : 5-mer DRACH context<br/>
+> ```coverage``` : number of reads aligned<br/>
+> ```probability``` : predicted probability of modification (0 - 1)<br/>
+> ```m6a``` : predicted as m6A site or not based on probability threshold<br/>
+> ```ratio``` : predicted modification ratio (0 - 1)
 
 ### Arguments
 ```
