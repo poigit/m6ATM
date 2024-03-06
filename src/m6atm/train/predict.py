@@ -59,31 +59,24 @@ def predict(args):
     ### m6a bed
     if None not in [args.tx, args.ref_gn]:
         
-        tx_df = pd.read_csv(tx_file, sep = '\t')
-        tx_df['name'] = [i.split('.')[0] for i in tx_df['name']]
-        ref_dict_gn = RC.get_ref_dict(ref_gn)
-
-        results_m6a = results[results.m6a == 'yes']
-        results_m6a_gn = MD.tx_to_gn(results_m6a, tx_df, ref_dict_gn)
-
-        bed_table = results_m6a_gn.loc[:,['chrom', 'gn_pos', 'gn_pos_1', 'name2', 'ratio', 'strand']]
-        bed_table.columns = ['chrom', 'chromStart', 'chromEnd', 'name', 'score', 'strand']
-
-        bed_table.to_csv(os.path.join(data_dir, 'results.bed'), sep = '\t', index = None, header = None)
-        
-    else:
-        
-        results_m6a = results[results.m6a == 'yes'].copy()
-        results_m6a['position2'] = [i+1 for i in results_m6a['position']]
-        results_m6a['name'] = results_m6a['transcript']
-        
-        bed_table = results_m6a.loc[:,['transcript', 'position', 'position2', 'name', 'ratio']]
-        bed_table.columns = ['chrom', 'chromStart', 'chromEnd', 'name', 'score']
-                                    
-        bed_table.to_csv(os.path.join(data_dir, 'results.bed'), sep = '\t', index = None, header = None)
+        _ = MD.to_bed(os.path.join(data_dir, 'results.csv'), tx_file, ref_gn, data_dir)
         
     # delete temp dir
     if not args.keep_file:
         shutil.rmtree(temp_dir, ignore_errors = True)
+    
+    return 0
+
+
+def visualize(args):
+    
+    # args
+    csv_table = args.input
+    tx_file = args.tx
+    ref_gn =  args.ref_gn
+    
+    data_dir = args.out if args.out else ''
+        
+    _ = MD.to_bed(csv_table, tx_file, ref_gn, data_dir)
     
     return 0

@@ -518,3 +518,30 @@ def extend_ambiguous(seq):
     d = IUPACData.ambiguous_dna_values
     return list(map(''.join, product(*map(d.get, seq)))) 
     
+
+def to_bed(csv_table, tx_file, ref_gn, out_dir):
+           
+    tx_df = pd.read_csv(tx_file, sep = '\t')
+    tx_df['name'] = [i.split('.')[0] for i in tx_df['name']]
+    ref_dict_gn = RC.get_ref_dict(ref_gn)
+    
+    results = pd.read_csv(csv_table, index_col = 0)
+    results_m6a = results[results.m6a == 'yes']
+    results_m6a_gn = MD.tx_to_gn(results_m6a, tx_df, ref_dict_gn)
+    
+    ### to bed
+    bed_table = results_m6a_gn.loc[:,['chrom', 'gn_pos', 'gn_pos_1', 'name2', 'ratio', 'strand']]
+    bed_table.columns = ['chrom', 'chromStart', 'chromEnd', 'name', 'score', 'strand']
+    
+    bed_table.to_csv(os.path.join(out_dir, 'results.bed'), sep = '\t', index = None, header = None)    
+    
+    ### to bedGraph
+    bedgraph = bed_table.iloc[:,[0, 1, 2, 4]]
+    bedgraph.columns = ['chrom', 'chromStart', 'chromEnd', 'score']
+    
+    with open(os.path.join(out_dir, 'results.bedGraph'), 'w') as f:
+    
+        f.write('track type=bedGraph name="ratio" description="m6ATM" color=238,31,137'+'\n')
+        bedgraph.to_csv(f, sep = '\t', index = None, header = None)
+        
+    return 0
