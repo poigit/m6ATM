@@ -49,9 +49,9 @@ m6ATM generates a site-level report "**results.csv**" on the provided reference 
 | ENST00000002165 | 1782 | GGACC | 32 | 0.227 | no | -
 
 > [!NOTE]
-> transcript: reference ID
-> position: the exact index of m6A base on the reference
-> motid: DRACH sequence
+> ```transcript```: reference ID<br/>
+> ```position```: the exact index of m6A base on the reference<br/>
+> ```motif```: DRACH sequence<br/>
 
 ### Arguments
 ```
