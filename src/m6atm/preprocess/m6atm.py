@@ -10,7 +10,7 @@ import m6atm.preprocess.OtherUtils as OU
 def preprocess(args):
     
     # args
-    out_dir = args.out
+    out_dir = args.out if args.out else ''
     fastq_dir = args.fastq
     bam_file = args.bam
     ref_file =  args.ref
@@ -70,7 +70,7 @@ def preprocess(args):
         
         logger1.info('Process Viterbi results... %s'%(time.strftime('%D:%H:%M:%S')))
         out_list = FT.FtDask(h5_files, temp_dir, pattern = pattern_list, ref = ref_file, 
-                             out_dir = out_dir, file_label = job, ft_len = ft_len, padding = False)
+                             out_dir = temp_dir, file_label = job, ft_len = ft_len, padding = False)
         logger1.info('Data preprocessing finished. %s'%(time.strftime('%D:%H:%M:%S')))
 
     # delete temp dir
