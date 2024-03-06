@@ -36,7 +36,7 @@ $ samtools index <PATH_TO_SORTED_BAM>
 ## Quick Start
 m6ATM re-aligns and collects **current intensity (signal)** and **base proability (trace)** data from each DRACH site for m6A prediction using a Wavenet-DSMIL model.
 ```shell
-$ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF_TX> -o <PATH_TO_OUTDIR>
+$ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF_TX>
 ```
 ![m6ATM](fig/pipeline.png)
 
@@ -100,7 +100,7 @@ $ m6atm visualize -i <PATH_TO_RESULT_CSV> -t <PATH_TO_UCSC_TABLE> -R <PATH_TO_RE
 ```
 Or we can just add arguments to ```m6atm run```:
 ```shell
-$ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -o <PATH_TO_OUTDIR> \
+$ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> \
 -t <PATH_TO_UCSC_TABLE> -R <PATH_TO_REF_GENOME>
 ```
 > [!NOTE]
