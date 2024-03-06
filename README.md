@@ -93,15 +93,16 @@ Optional:
 
 ### Visualization
 To visualize results in a genome browser (e.g. IGV), **a gene annotation table file** and **a reference genome file** need to be specified for coordination conversion. <br/>
-Gene annotation table files can ba available from UCSC Table Browser: https://genome.ucsc.edu/cgi-bin/hgTables. <br/>
-And an example table file for hg38 can be found in data/enst_hg38Tables.tar.gz.
+> [!NOTE]
+> Gene annotation table files can ba available from UCSC Table Browser: https://genome.ucsc.edu/cgi-bin/hgTables. <br/>
+> An example table file for hg38 can be found in data/enst_hg38Tables.tar.gz.
 ```shell
 $ m6atm visualize -i <PATH_TO_RESULT_CSV> -t <PATH_TO_TX_TABLE> -R <PATH_TO_REF_GENOME>
 ```
 Or we can just add arguments to ```m6atm run```:
 ```shell
 $ m6atm run -f <PATH_TO_FASTQ_DIR> -b <PATH_TO_SORTED_BAM> -r <PATH_TO_REF> -o <PATH_TO_OUTDIR> \
--t <PATH_TO_TX_TABLE> -R <PATH_TO_REF_GENOME>
+-t <PATH_TO_UCSC_TABLE> -R <PATH_TO_REF_GENOME>
 ```
 #### results.bed & results.bedGraph
 | chrom | chromStart | chromEnd | name | score | strand |
