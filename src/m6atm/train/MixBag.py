@@ -4,7 +4,10 @@ import numpy as np
 from tqdm.auto import tqdm
 from joblib import Parallel, delayed
 
-from ModelData import *
+try:
+    from .ModelData import *
+except:
+    from ModelData import *
 
 def get_mixed_loader(bag_data, label_data, size_data = None, site_data = None, split = True, signal_only = False):
     

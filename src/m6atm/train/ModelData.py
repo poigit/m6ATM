@@ -12,6 +12,8 @@ from itertools import product
 import torch
 from torchvision import transforms
 
+from m6atm.preprocess.ReadClass import *
+
 try:
     from .DSMIL import *
     from .WaveNet import *
@@ -523,11 +525,11 @@ def to_bed(csv_table, tx_file, ref_gn, out_dir):
            
     tx_df = pd.read_csv(tx_file, sep = '\t')
     tx_df['name'] = [i.split('.')[0] for i in tx_df['name']]
-    ref_dict_gn = RC.get_ref_dict(ref_gn)
+    ref_dict_gn = get_ref_dict(ref_gn)
     
     results = pd.read_csv(csv_table, index_col = 0)
     results_m6a = results[results.m6a == 'yes']
-    results_m6a_gn = MD.tx_to_gn(results_m6a, tx_df, ref_dict_gn)
+    results_m6a_gn = tx_to_gn(results_m6a, tx_df, ref_dict_gn)
     
     ### to bed
     bed_table = results_m6a_gn.loc[:,['chrom', 'gn_pos', 'gn_pos_1', 'name2', 'ratio', 'strand']]
