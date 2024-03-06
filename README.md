@@ -48,6 +48,11 @@ m6ATM generates a site-level report "**results.csv**" on the provided reference 
 | ENST00000000412 | 2130 | GGACT | 64 | 0.998 | yes | 0.32
 | ENST00000002165 | 1782 | GGACC | 32 | 0.227 | no | -
 
+> [!NOTE]
+> transcript: reference ID
+> position: the exact index of m6A base on the reference
+> motid: DRACH sequence
+
 ### Arguments
 ```
 usage: m6atm run [-h] -f -b -r -o [-P] [-N] [-M] [-p] [-l]
