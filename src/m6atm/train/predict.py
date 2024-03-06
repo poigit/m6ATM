@@ -9,7 +9,7 @@ import m6atm.train.ModelData as MD
 def predict(args):
     
     # args
-    data_dir = args.out
+    data_dir = args.out if args.out else ''
     tx_file = args.tx
     ref_gn =  args.ref_gn
     processes = args.n_proc
@@ -22,7 +22,7 @@ def predict(args):
     os.makedirs(temp_dir, exist_ok = True)
     
     # to bag
-    bag_class = MD.ATMbag(data_dir, n_range = [min_read, max_read], processes = processes)
+    bag_class = MD.ATMbag(temp_dir, n_range = [min_read, max_read], processes = processes)
     bag_class.to_bag(temp_dir)
     
     # prediction
