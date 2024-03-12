@@ -70,11 +70,18 @@ def preprocess(args):
         
         logger1.info('Process Viterbi results... %s'%(time.strftime('%D:%H:%M:%S')))
         out_list = FT.FtDask(h5_files, temp_dir, pattern = pattern_list, ref = ref_file, 
-                             out_dir = temp_dir, file_label = job, ft_len = ft_len, padding = False)
+                             out_dir = out_dir, file_label = job, ft_len = ft_len, padding = False)
         logger1.info('Data preprocessing finished. %s'%(time.strftime('%D:%H:%M:%S')))
 
     # delete temp dir
     if not args.keep_file:
-        shutil.rmtree(temp_dir, ignore_errors = True)
+        
+        file_list = glob.glob(os.path.join(temp_dir, '*'))
+        for f in file_list:
+            os.remove(f)
+    
+    file_list = glob.glob(os.path.join(out_dir, '*.npy'))
+    for f in file_list:
+        shutil.move(f, os.path.join(temp_dir, os.path.basename(f)))
     
     return 0
