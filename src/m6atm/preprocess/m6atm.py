@@ -76,12 +76,6 @@ def preprocess(args):
     # delete temp dir
     if not args.keep_file:
         
-        file_list = glob.glob(os.path.join(temp_dir, '*'))
-        for f in file_list:
-            os.remove(f)
-    
-    file_list = glob.glob(os.path.join(out_dir, '*.npy'))
-    for f in file_list:
-        shutil.move(f, os.path.join(temp_dir, os.path.basename(f)))
-    
+        shutil.rmtree(temp_dir, ignore_errors = True)
+
     return 0

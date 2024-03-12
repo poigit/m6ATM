@@ -21,6 +21,11 @@ def predict(args):
     temp_dir = os.path.join(data_dir, 'temp')
     os.makedirs(temp_dir, exist_ok = True)
     
+    # move preprocessed files to temp dir
+    file_list = glob.glob(os.path.join(data_dir, '*.npy'))
+    for f in file_list:
+        shutil.move(f, os.path.join(temp_dir, os.path.basename(f)))
+    
     # to bag
     bag_class = MD.ATMbag(temp_dir, n_range = [min_read, max_read], processes = processes)
     bag_class.to_bag(temp_dir)
