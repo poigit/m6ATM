@@ -10,7 +10,8 @@ cd m6ATM/src
 conda create -n m6atm python=3.7
 conda activate m6atm
 python -m pip install .
-pip install torch==1.10.1+cu111 torchvision==0.11.2+cu111 -f https://download.pytorch.org/whl/cu111/torch_stable.html
+pip install torch==1.10.1+cu111 \
+torchvision==0.11.2+cu111 -f https://download.pytorch.org/whl/cu111/torch_stable.html
 ```
 <br>
 
