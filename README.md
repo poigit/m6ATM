@@ -1,4 +1,5 @@
 # m6ATM v1.0.0
+m6ATM is a Python-based computational pipeline that applies deep neural networks to predict m6A sites at single-base resolution using Nanopore Direct RNA Sequencing (DRS) data. 
 ![m6ATM](fig/intro.png) 
 
 ## Installation
