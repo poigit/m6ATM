@@ -23,6 +23,7 @@ torchvision==0.11.2+cu111 -f https://download.pytorch.org/whl/cu111/torch_stable
 We recommend starting from raw .fast5 data to prevent any missing values in requried data. 
 However, it is possible to skip this step if basecalled fast5 files and bam files are available. 
 For more details, please see the section **Arguments**.
+**Currently only supporting SQK-RNA002 data analysis*
 
 ### Basecalling
 ```shell
