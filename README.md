@@ -24,7 +24,7 @@ We recommend starting from raw .fast5 data to prevent any missing values in requ
 However, it is possible to skip this step if basecalled fast5 files and bam files are available. 
 For more details, please see the section **Arguments**.
 <br>
-**Currently only supporting SQK-RNA002 data analysis*
+**Currently only supporting SQK-RNA002 (R9) data analysis*
 
 ### Basecalling
 ```shell
